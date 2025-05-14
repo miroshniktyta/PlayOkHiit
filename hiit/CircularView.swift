@@ -74,32 +74,40 @@ struct CircularView: View {
     let currentCycleRepetition: Int
     let isRest: Bool
     let isPaused: Bool
+    let isCompleted: Bool
     
     private let frameSize: CGFloat = 260
     private let innerCircleSize: CGFloat = 180
     private let lineWidth: CGFloat = 16
     
     private var exerciseProgress: Double {
-        isRest ? 0 : currentProgress
+        if isCompleted { return 0 }
+        return isRest ? 0 : currentProgress
     }
     
     private var restProgress: Double {
-        isRest ? currentProgress : 1
-    }
-    
-    private var timeLabel: String {
-        let time = isRest ? cycle.restTime : cycle.exerciseTime
-        let remainingTime = time * (isRest ? currentProgress : currentProgress)
-        return formattedTime(remainingTime)
+        if isCompleted { return 0 }
+        return isRest ? currentProgress : 1
     }
     
     private var phaseLabel: String {
-        if isRest {
+        if isCompleted {
+            return "Completed"
+        } else if isRest {
             return "REST"
         } else if currentExerciseIndex < cycle.exersise.count {
             return cycle.exersise[currentExerciseIndex]
         }
         return ""
+    }
+    
+    private var timeLabel: String {
+        if isCompleted {
+            return "00:00"
+        }
+        let time = isRest ? cycle.restTime : cycle.exerciseTime
+        let remainingTime = time * (isRest ? currentProgress : currentProgress)
+        return formattedTime(remainingTime)
     }
     
     var body: some View {
@@ -167,7 +175,7 @@ struct CircularView: View {
             Text(timeLabel)
                 .font(.title2.bold())
             
-            if cycle.repeatCount > 1 {
+            if cycle.repeatCount > 1 && !isCompleted {
                 Text("Set \(currentCycleRepetition + 1) of \(cycle.repeatCount)")
                     .font(.subheadline)
             }
@@ -221,7 +229,8 @@ struct CircularView: View {
             currentExerciseIndex: 0,
             currentCycleRepetition: 0,
             isRest: false,
-            isPaused: true
+            isPaused: true,
+            isCompleted: false
         )
     }
 }

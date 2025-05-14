@@ -41,7 +41,8 @@ struct PlayView: View {
                                 currentExerciseIndex: index == viewModel.currentRoundIndex ? viewModel.currentExerciseIndex : 0,
                                 currentCycleRepetition: index == viewModel.currentRoundIndex ? viewModel.currentRepetition : 0,
                                 isRest: index == viewModel.currentRoundIndex && viewModel.isRestPhase,
-                                isPaused: !viewModel.isPlaying
+                                isPaused: !viewModel.isPlaying,
+                                isCompleted: viewModel.currentPhase == .completed
                             )
                             .tag(index)
                         }
