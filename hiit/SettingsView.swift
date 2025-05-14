@@ -21,7 +21,7 @@ struct SettingsView: View {
     @AppStorage("selectedSound") private var selectedSound: SystemSound = .sound1013
     
     private let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
-    private let appStoreURL = "https://apps.apple.com/app/yourappid"
+    private let appStoreURL = "https://apps.apple.com/app/id6745899956"
     
     var body: some View {
         List {
